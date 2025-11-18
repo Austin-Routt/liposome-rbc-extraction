@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+ENV/
+env/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+*.env
+
+# API Keys (extra safety)
+*api_key*
+*API_KEY*
+secrets.yaml
+credentials.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Data files (large PDFs and outputs)
+data/sample_pdfs/*.pdf
+data/outputs/*.json
+data/validation_reports/*.md
+*.pdf
+
+# Temporary files
+*.tmp
+*.log
+*.cache
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Project-specific
+/data/outputs/*
+!/data/outputs/.gitkeep
+/data/sample_pdfs/*
+!/data/sample_pdfs/.gitkeep
