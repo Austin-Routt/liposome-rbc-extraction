@@ -1,0 +1,866 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "description": "Schema for PRISMA scoping review full-text screening of liposome-RBC interaction studies",
+    "properties": {
+      "study_identifier": {
+        "type": "object",
+        "description": "Unique identifiers for the study being screened",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Full title of the study, copied verbatim from the full text"
+          },
+          "authors": {
+            "type": "string",
+            "description": "Authors of the study, formatted as 'LastName1 FirstInitial1, LastName2 FirstInitial2, etc.'"
+          },
+          "publication_year": {
+            "type": "integer",
+            "description": "Year of publication"
+          },
+          "journal": {
+            "type": "string",
+            "description": "Journal or publication venue"
+          },
+          "doi": {
+            "type": ["string", "null"],
+            "description": "Digital Object Identifier of the study, if available"
+          },
+          "source_info": {
+            "type": "string",
+            "description": "Source information including original identifiers from the UKB"
+          },
+          "pdf_location": {
+            "type": "string",
+            "description": "File location or URI of the PDF document"
+          }
+        },
+        "required": ["title", "authors", "publication_year", "journal", "doi", "source_info"]
+      },
+      "gaps": {
+        "type": "array",
+        "description": "Array of identified research gaps with their thematic categorization",
+        "items": {
+          "type": "object",
+          "properties": {
+            "gap_statement": {
+              "type": "string",
+              "description": "Clear statement of the research gap using the paper's own terminology"
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Direct quotes from the full text that explicitly state this research gap, limitation, or needed future work. Include page numbers when available."
+            },
+            "thoughts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Step-by-step reasoning to identify and validate this research gap. Consider: 1) Is this truly a gap or limitation acknowledged by the authors? 2) Is it specific to liposome-RBC interactions? 3) How significant is this gap to the field?"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Concise synthesis of this specific research gap and its significance to liposome-RBC interactions."
+            },
+            "thematicCategorization": {
+              "type": "object",
+              "description": "Thematic category that this gap belongs to according to the UKB framework. Reference the following table for category definitions and key concepts:\n\n| Category ID | Title | Description | Key Concepts |\n|-------------|-------|-------------|---------------|\n| `membrane_structure_function` | Membrane Structure-Function Relationships | Explores fundamental relationships between membrane composition, physical properties, and biological functions, focusing on how structural characteristics determine membrane behavior and functionality. | Lipid composition, membrane fluidity, domain formation, structural determinants, membrane asymmetry, phase transitions, molecular organization |\n| `membrane_transport_permeability` | Membrane Transport and Permeability | Investigates movement and regulation of membrane components and transport across membranes, including ion channels, water transport, and selective permeability processes. | Membrane transport, selective permeability, ion channels, water transport, carrier proteins, passive diffusion, active transport |\n| `lipid_movement_distribution` | Lipid Movement and Distribution | Focuses on the movement, organization, and regulation of phospholipids within and between membranes, including phospholipid flip-flop, transbilayer movement, and factors affecting lipid redistribution. | Phospholipid movement, lipid flip-flop, lipid transbilayer movement, selective redistribution, phospholipid internalization, phospholipid exchange |\n| `cholesterol_dynamics_function` | Cholesterol Dynamics and Function | Investigates cholesterol movement, distribution, and function in membranes, including its effects on membrane proteins, transport systems, and cellular homeostasis. | Cholesterol transfer, cholesterol homeostasis, sterol dynamics, cholesterol extraction, cholesterol-protein interactions, membrane ordering |\n| `membrane_interaction_fusion` | Membrane Interaction and Fusion Mechanisms | Examines processes governing interactions between membranes, including fusion, binding, and aggregation, with emphasis on factors influencing efficiency and specificity of these interactions. | Membrane fusion, lipid mixing, pore formation, hemagglutination, binding sites, membrane collisions, fusogenic factors |\n| `membrane_injury_disruption` | Membrane Injury and Disruption | Explores processes of membrane damage and mechanisms of disruption, with implications for both preventing unwanted damage and designing selective disruption for therapeutic purposes. | Membrane injury, membrane disruption, hemolysis, pore formation, membrane lysis, mechanical damage, permeabilization |\n| `protective_mechanisms_stabilization` | Protective Mechanisms and Membrane Stabilization | Investigates protective strategies for membranes, focusing on mechanisms that preserve membrane integrity, prevent damage, and enhance stability under various conditions. | Membrane protection, stabilization mechanisms, protective agents, membrane integrity, cryoprotection, mechanical stabilization |\n| `oxidative_stress_antioxidant` | Oxidative Stress and Antioxidant Protection | Investigates oxidative damage to red blood cells and liposomes, along with protective strategies using antioxidants and mechanisms to prevent or reverse oxidative injury. | Lipid peroxidation, reactive oxygen species, antioxidant capacity, oxidative resistance, free radical damage, oxidative protection |\n| `liposomal_stability_formulation` | Liposomal Stability and Formulation Optimization | Addresses challenges in developing stable liposomal formulations with optimal composition, focusing on factors affecting stability during storage and in biological environments. | Formulation stability, shelf-life, composition optimization, aggregation behavior, storage conditions, physical stability, sterilization |\n| `encapsulation_efficiency` | Encapsulation Efficiency Optimization | Focuses on improving the loading of therapeutic agents into liposomal carriers, addressing challenges in encapsulation efficiency and retention for various drug types. | Drug loading, encapsulation efficiency, drug retention, remote loading, active loading, passive loading, loading optimization |\n| `circulation_biodistribution` | Circulation and Biodistribution Dynamics | Examines challenges in extending circulation time and understanding clearance mechanisms of liposomal formulations, including interactions with blood components and strategies to avoid premature elimination. | Circulation persistence, RES clearance, half-life extension, biodistribution, PEGylation, liver uptake, pharmacokinetic profiles |\n| `targeting_specificity` | Targeting and Specificity Enhancement | Focuses on developing and optimizing methods to target liposomal delivery systems to specific tissues or cells, including receptor-targeting approaches and surface modification strategies. | Targeting ligands, binding specificity, receptor interactions, cell-specific delivery, surface modification, multi-receptor targeting |\n| `protein_membrane_interactions` | Protein-Membrane Interactions | Investigates relationships between proteins and membranes, focusing on protein transfer, incorporation, and functional impacts on membrane properties and cellular processes. | Protein transfer, protein reconstitution, protein mobility, glycoproteins, membrane protein function, protein-lipid interactions |\n| `rbc_preservation_storage` | RBC Preservation, Storage and Aging | Explores methods for preserving red blood cells during storage, including liposomal interventions to maintain RBC functionality and extend storage life, as well as processes related to cellular aging and senescence. | Hypothermic storage, liposome treatment, cryopreservation, storage lesion, membrane stabilization, freeze-drying, cell aging, senescence |\n| `liposome_rbc_interaction` | Liposome-RBC Interaction Mechanisms | Investigates the complex interactions between liposomes and red blood cells, including molecular exchange, membrane modifications, and factors governing these interactions. | Molecular exchange, hemolysis prevention, lipid transfer, protein transfer, surface interactions, erythrocyte membrane interactions |\n| `artificial_oxygen_carriers` | Artificial Oxygen Carriers Development | Addresses development of hemoglobin-based oxygen carriers as blood substitutes, focusing on overcoming limitations such as short half-life, oxidative stability, and safety concerns. | Hemoglobin vesicles, methemoglobin reduction, oxygen affinity, artificial RBCs, oxygen-carrying capacity, blood substitutes |\n| `biomimetic_engineering` | Biomimetic Engineering and Cell Surface Mimicry | Focuses on developing systems that mimic natural cell membranes for improved biocompatibility, functionality, and therapeutic efficacy in various biomedical applications. | Biomimetic design, cell-mimicking, erythrocyte ghosts, surface mimicry, natural membrane coatings, mechanical properties |\n| `immunological_biocompatibility` | Immunological Interactions and Biocompatibility | Research addressing how liposomes and modified RBCs interact with the immune system, including complement activation, immunogenicity, immune evasion strategies, and inflammatory responses. | Complement activation, immunogenicity, inflammation, immune evasion, antibody response, biocompatibility |\n| `therapeutic_applications` | Therapeutic Applications and Advanced Modalities | Addresses specific therapeutic applications of liposomal and RBC-based delivery systems, including traditional drug delivery approaches and emerging modalities such as gas transporters, detoxification systems, and combination therapies. | Disease-specific therapies, drug resistance, targeted treatments, gas donors, detoxification, enzyme delivery, combination therapies, photodynamic therapy |\n| `clinical_translation` | Clinical Translation and Implementation | Addresses barriers to moving RBC-liposome technologies from laboratory to clinical application, including manufacturing scale-up, safety evaluation, regulatory considerations, and implementation challenges. | Production scale-up, clinical safety, manufacturing limitations, regulatory requirements, sterilization, human trials, commercialization |\n| `other` | Other | Research gaps that do not clearly fit into any of the established thematic categories. | Miscellaneous, interdisciplinary, novel concepts, emerging areas |",
+              "properties": {
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Verbatim direct quotes from the text for structured identification of category-relevant content"
+                },
+                "thoughts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Step-by-step reasoning using the direct verbatim quotes from the context and the following structure: 'Step 1: Analyzed key terminology in the context', 'Step 2: Identified alignment with [chosen category] through terms like [specific terms]', 'Step 3: Compared against alternative categories [list alternatives] and found stronger alignment with [chosen category] due to [specific reasons]'"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Concise explanation using the context and thoughts and the following template structure: 'This research gap focuses primarily on [specific aspects] which align directly with the [chosen category] definition, particularly the emphasis on [key concepts from category].'"
+                },
+                "thematicCategoryId": {
+                  "type": "string",
+                  "enum": [
+                    "membrane_structure_function",
+                    "membrane_transport_permeability",
+                    "lipid_movement_distribution",
+                    "cholesterol_dynamics_function",
+                    "membrane_interaction_fusion",
+                    "membrane_injury_disruption",
+                    "protective_mechanisms_stabilization",
+                    "oxidative_stress_antioxidant",
+                    "liposomal_stability_formulation",
+                    "encapsulation_efficiency",
+                    "circulation_biodistribution",
+                    "targeting_specificity",
+                    "protein_membrane_interactions",
+                    "rbc_preservation_storage",
+                    "liposome_rbc_interaction",
+                    "artificial_oxygen_carriers",
+                    "biomimetic_engineering",
+                    "immunological_biocompatibility",
+                    "therapeutic_applications",
+                    "clinical_translation",
+                    "other"
+                  ],
+                  "description": "Identifier of the UKB thematic category"
+                },
+                "evidence_strength": {
+                  "type": "string",
+                  "enum": ["Strong", "Moderate", "Weak"],
+                  "description": "Assessment of how strongly this gap aligns with the thematic category"
+                }
+              },
+              "required": ["context", "thoughts", "summary", "thematicCategoryId", "evidence_strength"]
+            },
+            "gap_type": {
+              "type": "object",
+              "description": "Categorization of whether this gap is being addressed by the current paper or represents a future research direction",
+              "properties": {
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Key contextual information from the paper that helps determine whether this gap is being addressed in the current work or identified for future research"
+                },
+                "thoughts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Step-by-step reasoning to determine the gap type. Consider: 1) Does the paper present this as a problem they are addressing? 2) Is it described as a limitation of the current study? 3) Is it explicitly mentioned as a future research direction? 4) How do the authors frame this gap in relation to their work?"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Concise explanation of why this gap is classified as a current research focus or future research direction."
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "Historical gap - addressed in prior literature",
+                    "Current gap - addressed in this paper",
+                    "Future gap - identified for future research",
+                    "Persistent gap - partially addressed but remains unsolved"
+                  ],
+                  "description": "Classification of the gap based on whether it is being addressed in the current paper or represents a direction for future research"
+                },
+                "resolution_status": {
+                  "type": "string",
+                  "enum": [
+                    "Fully resolved",
+                    "Partially resolved",
+                    "Unresolved",
+                    "Not applicable"
+                  ],
+                  "description": "Assessment of how completely this gap has been resolved by the current paper or previous research"
+                }
+              },
+              "required": ["context", "thoughts", "summary", "type", "resolution_status"]
+            },
+            "text_location": {
+              "type": "string",
+              "description": "Section and page number where the gap is mentioned in the full text"
+            },
+            "significance": {
+              "type": "string",
+              "enum": ["High", "Medium", "Low"],
+              "description": "Assessed significance of this gap to the liposome-RBC interaction field"
+            }
+          },
+          "required": ["gap_statement", "context", "thoughts", "summary", "thematicCategorization", "gap_type", "text_location", "significance"]
+        }
+      },
+      "variables": {
+        "type": "array",
+        "description": "Array of identified data variables with their thematic categorization",
+        "items": {
+          "type": "object",
+          "properties": {
+            "variable_name": {
+              "type": "string",
+              "description": "Name of the measured or calculated variable exactly as stated in the full text"
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Direct quotes from the full text that describe this variable, its measurement, or its significance. Include complete sentences providing measurement context and page numbers when available."
+            },
+            "thoughts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Step-by-step reasoning to identify and validate this variable. Consider: 1) What does this variable measure or represent? 2) How is it relevant to liposome-RBC interactions? 3) How central is this measurement to the study's objectives?"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Concise synthesis of what this variable represents and its significance to the study of liposome-RBC interactions."
+            },
+            "data_type": {
+              "type": "string",
+              "enum": [
+                "CATEGORICAL",
+                "CONTINUOUS",
+                "BINARY",
+                "DISCRETE",
+                "ORDINAL",
+                "TIME_SERIES",
+                "OTHER"
+              ],
+              "description": "Type of data represented by this variable. CATEGORICAL: Qualitative classifications; CONTINUOUS: Numerical values on continuous scale; BINARY: Two-state variables; DISCRETE: Countable numerical values; ORDINAL: Ordered categories; TIME_SERIES: Temporal measurements; OTHER: Variables not fitting above types."
+            },
+            "measurement_details": {
+              "type": "object",
+              "description": "Detailed information about how the variable was measured",
+              "properties": {
+                "units": {
+                  "type": ["string", "null"],
+                  "description": "Units of measurement as stated in the full text. Use null if not applicable."
+                },
+                "method": {
+                  "type": ["string", "null"],
+                  "description": "Measurement or calculation method used to quantify the variable"
+                },
+                "value_range": {
+                  "type": ["string", "null"],
+                  "description": "Reported range of values or results observed for this variable in the study. Include typical values, ranges, or significant findings."
+                },
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Direct quotes describing the measurement approach, including methods, instruments, and conditions under which measurements were performed."
+                },
+                "thoughts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Step-by-step reasoning about the measurement approach. Consider: 1) How appropriate is the method for what's being measured? 2) What are the accuracy implications? 3) Are there any notable limitations to this approach?"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Concise explanation of how the variable was measured and any notable aspects of the measurement approach."
+                }
+              },
+              "required": ["units", "method", "value_range", "context", "thoughts", "summary"]
+            },
+
+"thematicCategorization": {
+            "type": "object",
+            "description": "Thematic category that this variable belongs to according to the UKB framework. Reference the following table for category definitions, key concepts, and examples:\n\n| Category ID | Theme Name | Description | Key Concepts | Example Variables |\n|-------------|------------|-------------|--------------|-------------------|\n| `mem_intg` | MEMBRANE INTEGRITY MEASUREMENTS | Measurements that assess membrane structural disruption, damage, or resistance to disruption in both erythrocytes and liposomes, typically quantified through lysis, leakage, or stability parameters under various experimental conditions. Distinguishes between acute and sustained integrity compromise. | Hemolysis, membrane rupture, permeabilization, membrane stabilization, lysis resistance, structural integrity | Hemolytic activity: Measures capacity of compounds to disrupt RBC membranes and cause cell lysis; Membrane destabilization: Measures extent of structural disruption in cell or liposome membranes; Calcein leakage: Measures release of fluorescent markers from liposomes as indicator of membrane permeability; RBC fragility: Measures susceptibility of red blood cells to rupture under osmotic or mechanical stress |\n| `mem_phys` | MEMBRANE PHYSICAL PROPERTY MEASUREMENTS | Measurements that quantify physical mobility, organization, and packing of membrane components in erythrocytes and liposomes, capturing fundamental properties that influence membrane function and responsiveness to various treatments. Includes thermotropic, mechanoelastic, and fluidity parameters. | Lipid mobility, molecular organization, membrane rigidity, phase transitions, structural order, fluidity, viscosity, elasticity | Membrane fluidity: Measures physical mobility and organization of lipid molecules within membranes; Membrane microviscosity: Measures physical state and fluidity of lipid membranes; Phase transition temperature: Measures temperature at which membrane lipids undergo structural phase changes; Lipid order: Measures organizational state of membrane lipids under various conditions; Membrane bending rigidity: Measures resistance to deformation under mechanical stress |\n| `mem_comp` | MEMBRANE COMPOSITION MEASUREMENTS | Measurements that characterize the types, quantities, and distribution of lipid and protein components in membrane systems, establishing baseline compositions or tracking changes following experimental manipulations. Includes both lipid and protein compositional analysis. | Lipid ratios, cholesterol content, phospholipid distribution, component proportions, membrane enrichment, protein content | Membrane cholesterol content: Measures amount of cholesterol in cell or liposome membranes; Cholesterol/phospholipid ratio: Measures molar proportion of cholesterol relative to phospholipids; Phospholipid composition: Describes abundance and distribution of different phospholipids; Fatty acid unsaturation: Measures carbon-carbon double bond content in phospholipid fatty acid residues; Membrane protein content: Quantifies specific membrane proteins and their relative abundance |\n| `mem_asym` | MEMBRANE ASYMMETRY MEASUREMENTS | Measurements that assess the differential distribution of phospholipids between inner and outer membrane leaflets, tracking changes in asymmetry following treatments or manipulations in both natural and model membrane systems. Includes measurements related to enzymes that maintain or disrupt asymmetry. | Phospholipid distribution, PS externalization, membrane leaflet organization, translocation mechanisms, asymmetry disruption, scramblase activity | Phospholipid asymmetry: Measures distribution of lipids between inner and outer membrane leaflets; Phosphatidylserine exposure: Measures externalization of normally inner-leaflet phospholipids; Phospholipid internalization: Measures movement of phospholipids from outer to inner leaflets; Transbilayer movement rate: Measures how quickly lipids move between membrane leaflets; Flippase/scramblase activity: Measures enzymatic regulation of phospholipid distribution |\n| `lip_trfr` | LIPID TRANSFER MEASUREMENTS | Measurements that quantify the movement of lipids and related molecules between different membrane systems or membrane leaflets, capturing rates, directionality, specificity, and energy requirements of transfer processes. Includes both spontaneous and protein-mediated transfer. | Exchange kinetics, transfer directionality, component specificity, intermembrane movement, protein-mediated transfer | Phospholipid exchange rate: Measures how quickly phospholipids transfer between membranes; Cholesterol transfer rate: Measures kinetics of cholesterol movement between membrane structures; Intermembrane transfer rate: Measures movement of molecules between separate membrane systems; Lipid exchange efficiency: Measures extent of lipid transfer between liposomes and erythrocyte membranes; Transfer protein activity: Measures functional performance of lipid transfer proteins |\n| `mem_fuse` | MEMBRANE FUSION MEASUREMENTS | Measurements that quantify the merging of separate membrane structures into a single continuous bilayer, characterizing efficiency, kinetics, and component mixing between liposomes, cells, or other membrane systems. Distinguishes between complete fusion and intermediate hemifusion states. | Lipid mixing, content transfer, fusion efficiency, fusion kinetics, membrane merging, hemifusion | Membrane fusion: Measures merging of distinct membrane structures under various conditions; Fusion rate: Measures kinetics of membrane mixing or merging between structures; Lipid mixing efficiency: Measures extent of lipid component integration during fusion events; Content mixing: Measures transfer of internal contents during membrane fusion; Hemifusion state stability: Measures persistence of intermediate fusion stages |\n| `mem_perm` | MEMBRANE PERMEABILITY MEASUREMENTS | Measurements that assess the ability of molecules, ions, or water to cross membrane barriers through regulated or selective pathways, characterizing both passive permeability and facilitated transport processes in different membrane systems. Focuses on functional transport across intact membranes rather than integrity breaches. | Selective transport, barrier function, transport rates, pore formation, channel activity, carrier-mediated movement | Ion flux: Measures specific ion movement across membranes; Water permeability coefficient: Measures osmotic water transport capability across membranes; Channel-mediated transport: Measures substance movement through specific membrane channels; Carrier kinetics: Measures rate parameters of facilitated diffusion processes; Substrate selectivity: Measures differential transport rates for various molecules |\n| `mem_bind` | MEMBRANE BINDING MEASUREMENTS | Measurements that quantify the interaction, attachment, or association between molecules (proteins, drugs, antibodies) and membrane surfaces, characterizing binding affinity, specificity, and functional consequences. Includes both specific receptor binding and nonspecific adsorption. | Surface association, binding specificity, molecular recognition, binding kinetics, target selectivity, partition coefficients | Protein-membrane binding: Measures association between proteins and membrane systems; Antibody binding: Measures specific interaction between antibodies and membrane targets; Drug partitioning: Measures distribution of therapeutic agents between membranes and solution; Binding reversibility: Describes whether interactions can be reversed under specific conditions; Binding affinity (Kd): Quantifies strength of molecular interactions with membrane components |\n| `mem_elec` | MEMBRANE ELECTRICAL PROPERTY MEASUREMENTS | Measurements that characterize the electrical characteristics of membranes, including surface charge, potential differences, and electrostatic interactions that influence membrane function and interactions with charged molecules or particles. | Surface charge, zeta potential, membrane potential, electrostatic interactions, electrical gradients | Zeta potential: Measures electrical charge at the membrane-solution interface; Surface charge density: Measures electrical charge per unit area of membrane; Transmembrane potential: Measures voltage difference across cell membranes; Electrophoretic mobility: Measures movement of particles in an electric field; Isoelectric point: Measures pH at which membrane surface charge becomes neutral |\n| `cell_lip` | CELL-LIPOSOME INTERACTION MEASUREMENTS | Measurements that characterize the specific interactions between cells (particularly erythrocytes) and liposomes, including binding mechanisms, morphological features of contact points, and dynamic processes that occur during cell-liposome encounters. | Interaction mechanisms, contact morphology, binding dynamics, cellular response to liposomes, interaction specificity | Liposome-RBC interaction mechanism: Distinguishes between adsorption versus fusion modes; Membrane interaction morphology: Characterizes structural features of contact points; Interaction dynamics: Measures temporal progression of liposome-erythrocyte interactions; Liposome attachment: Measures physical interaction between liposomes and RBCs; Number of bound vesicles per cell: Quantifies interaction efficiency |\n| `rbc_morph` | RED BLOOD CELL MORPHOLOGY MEASUREMENTS | Measurements that assess the shape, structural features, and morphological transformations of red blood cells, capturing both normal variations and changes induced by various treatments or conditions. Includes both qualitative classifications and quantitative morphometrics. | Cell shape, morphological transformations, echinocyte formation, stomatocyte formation, shape recovery, discocyte-echinocyte-spherocyte transitions | RBC morphology: Measures shape changes of red blood cells under various conditions; Erythrocyte shape changes: Tracks transformations between normal biconcave disks and altered forms; Cell circularity index: Quantifies deviation from normal RBC shape; Morphology shift post-liposome exposure: Measures shape changes following liposome treatment; % of discocytes vs. spherocytes: Quantifies population distribution of morphological types |\n| `rbc_func` | RED BLOOD CELL FUNCTIONAL MEASUREMENTS | Measurements that evaluate the physiological capabilities and functional performance of red blood cells, assessing properties critical for oxygen transport, circulation, and survival in various experimental conditions. | Deformability, metabolic activity, cellular integrity, functional efficacy, rheological properties | RBC deformability: Measures ability of red blood cells to change shape under applied stress; Metabolic function: Measures biochemical activity including glycolysis and ATP production; Osmotic stability: Measures resistance of erythrocyte membranes to hemolysis under osmotic stress; ATP content: Measures energy reserves necessary for maintaining RBC function; Long-term survival: Measures functional persistence of treated erythrocytes |\n| `rbc_agg` | RED BLOOD CELL AGGREGATION MEASUREMENTS | Measurements that quantify the clumping, adherence, or aggregation of red blood cells with each other or with other cell types, characterizing both normal hemorheological properties and abnormal adhesive phenomena. | Cell-cell adhesion, agglutination, hemorheology, cellular adherence, aggregation kinetics | Aggregation Index: Measures tendency of red blood cells to form aggregates; RBC agglutination: Measures how effectively different treatments cause RBCs to clump together; Rouleaux formation: Measures characteristic stacking behavior of erythrocytes; RBC adherence: Measures binding of erythrocytes to endothelial surfaces; Sedimentation velocity: Quantifies rate of cell settling due to aggregation |\n| `lip_size` | LIPOSOME SIZE MEASUREMENTS | Measurements that quantify the physical dimensions of liposomal structures, providing critical information about preparation characteristics that influence their functional properties, stability, and biological interactions. | Particle diameter, size distribution, vesicle dimensions, structural uniformity, size-dependent properties | Liposome size: Measures physical dimensions of lipid vesicles; Hydrodynamic diameter: Quantifies physical size of liposomes in solution; Size distribution: Characterizes range and variability of vesicle dimensions; Polydispersity index: Measures uniformity of liposome size population; Mean diameter: Provides average dimension of liposome preparation |\n| `lip_stab` | LIPOSOME STABILITY MEASUREMENTS | Measurements that evaluate the structural persistence, integrity maintenance, and resistance to degradation of liposomes in various environments, providing information critical for formulation development and application. | Structural integrity, leakage resistance, environmental stability, shelf-life, degradation resistance | Liposome stability: Measures structural integrity and physical persistence in biological environments; Carboxy fluorescein release: Measures leakage of encapsulated marker from liposomes; Serum stability: Measures ability to maintain structural integrity in presence of blood components; Storage stability: Evaluates preservation of liposome properties over time; Structural integrity post-freeze/thaw: Measures resistance to damage during processing |\n| `lip_surf` | LIPOSOME SURFACE PROPERTY MEASUREMENTS | Measurements that characterize the electrical, chemical, and structural features of liposome surfaces, capturing properties that influence their interaction with biological systems and environmental stability. | Surface charge, hydrophilicity, electrostatic potential, surface coating, membrane exposure | Zeta potential: Measures electrical charge at the particle-fluid interface of liposomes; Surface charge: Measures electrical potential at liposome surfaces; Surface modification density: Quantifies coverage of functional groups on liposome exterior; PEG coating thickness: Measures dimension of hydrophilic shield on liposome surface; Surface tension reduction: Measures changes in interfacial properties |\n| `lip_form` | LIPOSOME FORMATION MEASUREMENTS | Measurements that assess the process and efficiency of liposome creation and self-assembly, characterizing formulation parameters that influence vesicle properties and production outcomes. | Self-assembly, vesicle formation, manufacturing efficiency, production characteristics, preparation yield | Self-assembling capacity: Measures ability to form stable structures spontaneously; Production yield: Measures efficiency of the formation process; Size uniformity: Measures consistency in formation outcomes; Lamellarity control: Measures ability to produce desired membrane structure; Critical vesiculation concentration: Measures threshold concentration for vesicle formation |\n| `vesic_char` | VESICLE CHARACTERISTIC MEASUREMENTS | Measurements that characterize the physical, biochemical, and structural properties of vesicles derived from various sources, assessing features that define their functional capabilities and biological interactions. | Vesicle composition, enzymatic content, structural features, lamellarity, surface properties | Vesicle characteristics: Measures physical and biochemical properties of shed vesicles; Spatial distribution of liposomes: Characterizes positioning of liposomes within blood vessels; Presence of cytochrome oxidase: Demonstrates successful fusion and protein incorporation; Vesicle lamellarity: Characterizes membrane layering structure; Protein distribution in vesicles: Maps location of membrane-associated proteins |\n| `prot_func` | PROTEIN FUNCTIONAL MEASUREMENTS | Measurements that characterize the functional behavior, enzymatic activity, and structural dynamics of membrane-associated proteins, assessing how these molecular machines perform their biological roles under various experimental conditions. | Enzyme activity, protein conformation, functional mechanisms, catalytic rates, protein structural dynamics | Na,K-ATPase activity: Measures functional performance of this critical membrane enzyme; Anion transport activity: Measures ability of band 3 protein to facilitate anion movement; Protein orientation: Measures directional arrangement of membrane proteins within vesicles; Activation energy: Measures energy barrier for protein-mediated processes; Band 3 aggregate size distribution: Characterizes clustering of membrane proteins |\n| `enc_eff` | ENCAPSULATION EFFICIENCY MEASUREMENTS | Measurements that quantify the incorporation of therapeutic agents, proteins, or other cargo into liposomal or cellular carriers during the preparation phase, characterizing loading capacity and encapsulation success across various preparation methods. | Loading capacity, entrapment efficiency, drug incorporation, cargo loading, preparation yield | Encapsulation efficiency: Measures percentage of drug successfully incorporated into liposomes; Hemoglobin encapsulation efficiency: Measures how effectively hemoglobin is incorporated; Drug loading efficiency: Quantifies proportion of drug successfully incorporated; Production yield: Measures efficiency of manufacturing process; Encapsulation yield: Quantifies percentage of active agent successfully entrapped |\n| `del_eff` | DELIVERY EFFICIENCY MEASUREMENTS | Measurements that assess the physical process of transporting therapeutic agents to and into target cells or tissues, quantifying targeting specificity, cellular uptake mechanisms, and successful physical payload transfer independent of biological effects. | Targeting precision, cellular uptake, payload delivery, therapeutic distribution, delivery mechanisms | Targeting efficiency: Measures how effectively nanoplatforms localize to target sites; Cell targeting specificity: Measures preferential interaction with intended cell types; Cytosolic delivery efficiency: Measures effectiveness of delivering contents to cell interior; Intracellular concentration: Measures actual delivery of target molecules into cells; Delivery depth: Indicates penetration of therapeutic system into target tissue |\n| `cir_time` | CIRCULATION TIME MEASUREMENTS | Measurements that quantify how long therapeutic carriers or modified blood components persist in the bloodstream before clearance, characterizing pharmacokinetic behavior and in vivo stability. | Circulatory persistence, half-life, clearance rate, in vivo stability, circulation duration | Blood circulation time: Measures duration of presence in bloodstream before clearance; Circulation half-life: Measures time to reach half of initial concentration in blood; Blood elimination half-life: Characterizes pharmacokinetic profile of liposomal drugs; Circulatory retention: Measures percentage of administered dose remaining in circulation; Plasma concentration: Quantifies amount of agent in blood plasma over time |\n| `org_dist` | ORGAN AND SUBCELLULAR DISTRIBUTION MEASUREMENTS | Measurements that track where administered substances, cells, or therapeutic carriers accumulate in the body or within cells, characterizing biodistribution patterns at both tissue and subcellular levels. | Biodistribution, tissue accumulation, organ uptake, subcellular localization, intracellular targeting | Organ distribution: Measures where vesicles or cells accumulate after clearance from circulation; Liver uptake: Measures extent of liposome removal by hepatic tissues; Tissue distribution: Measures localization of phospholipids in different body compartments; Ultrastructural localization: Tracks location of labeled components at subcellular level; Tumor accumulation: Measures preferential gathering of nanocarriers at tumor sites |\n| `hgb_prop` | HEMOGLOBIN PROPERTY MEASUREMENTS | Measurements that characterize the structural, functional, and biochemical properties of hemoglobin in natural or artificial blood systems, assessing features central to oxygen transport and delivery. Focuses on native properties rather than oxidative damage processes. | Oxygen binding, protein conformation, cooperative effects, allosteric regulation, functional modifications | Oxygen affinity: Measures how readily hemoglobin binds and releases oxygen; Bohr effect: Measures pH-dependent oxygen binding changes; Oxygen binding capacity: Measures maximum oxygen carrying potential; Hemoglobin concentration: Measures amount per unit volume in artificial carriers; Hemoglobin conformational change: Measures structural alterations upon binding |\n| `oxy_tran` | OXYGEN TRANSPORT MEASUREMENTS | Measurements that evaluate the system-level efficiency and effectiveness of oxygen delivery and consumption in various blood or artificial oxygen carrier systems, characterizing properties critical for tissue oxygenation. | Oxygen delivery, oxygen extraction, transport efficiency, respiratory function, oxygen consumption | Oxygen delivery: Measures amount of oxygen transported to tissues; Oxygen consumption: Measures amount of oxygen utilized by tissues; Oxygen extraction: Measures arteriovenous difference in oxygen content; Oxygen volume delivered: Measures quantity of oxygen provided during specific conditions; Tissue oxygen tension: Measures level of oxygen in specific tissues |\n| `rheo_prop` | RHEOLOGICAL PROPERTY MEASUREMENTS | Measurements that characterize the flow-related properties of blood, liposomes, or other biological fluids, quantifying viscosity, flow resistance, and other parameters that influence circulation dynamics. | Blood viscosity, flow resistance, vascular impedance, fluid dynamics, flow distribution | Blood viscosity: Measures flow resistance properties of blood; Vascular resistance: Measures circulatory impedance following treatment; Rheological properties: Measures flow characteristics of liposome or erythrocyte suspensions; Total peripheral vascular resistance: Measures systemic vascular effects; Flow behavior under shear stress: Characterizes non-Newtonian properties |\n| `oxd_proc` | OXIDATIVE PROCESS MEASUREMENTS | Measurements that quantify oxidative damage, reactive species production, or antioxidant protection in membrane systems and proteins (including hemoglobin), providing information about oxidative stress and protective mechanisms. | Lipid peroxidation, antioxidant activity, oxidative damage, free radical scavenging, hemoglobin oxidation | Lipid peroxidation: Measures extent of oxidative degradation of membrane lipids; Antioxidant activity: Measures capacity to protect from oxidative hemolysis; Reactive species scavenging: Measures ability to neutralize specific oxidants; Lipid hydroperoxide formation: Measures degree of oxidative damage to membrane lipids; Hemoglobin oxidation: Measures conversion to non-functional methemoglobin forms |\n| `therm_prop` | THERMODYNAMIC PROPERTY MEASUREMENTS | Measurements that quantify energy parameters and barriers associated with membrane processes, including activation energies, transition states, and energetic characteristics that govern molecular interactions and transitions. | Activation energy, energy barriers, thermodynamic potential, thermal transitions, energetic requirements | Activation energy: Measures energy barrier for processes like membrane fusion; Free energy of aggregation: Measures thermodynamic driving forces for adhesion; Critical micelle concentration: Measures threshold energy for micelle formation; Phase transition enthalpy: Measures energy associated with membrane phase changes; Binding energy: Measures thermodynamic favorability of molecular interactions |\n| `env_resp` | ENVIRONMENTAL RESPONSE MEASUREMENTS | Measurements that assess how membrane systems respond to environmental factors such as pH, temperature, and ionic conditions, capturing adaptive changes in structure, function, or stability under varying external conditions. | pH sensitivity, temperature response, ion effects, environmental adaptation, stimulus response | pH-dependent membrane changes: Measures response to acidity/alkalinity; Temperature sensitivity: Measures response to thermal variations; Ionic strength effects: Measures response to salt concentration; Osmotic response: Measures adaptation to osmolarity changes; Light-induced alterations: Measures photosensitive membrane responses |\n| `ther_eff` | THERAPEUTIC EFFICACY MEASUREMENTS | Measurements that evaluate the biological or pharmacological outcomes of therapeutic interventions against diseases or pathological conditions, focusing on the actual disease-modifying effects rather than delivery mechanisms. | Treatment effectiveness, disease intervention, antimicrobial potency, therapeutic potency, clinical outcomes | Parasite growth inhibition: Measures reduction in pathogen replication; Antiplasmodial activity: Quantifies potency against malaria parasites; Minimum inhibitory concentration: Measures lowest effective antimicrobial dose; Tumor inhibition: Measures anticancer efficacy; Sickling inhibition: Measures prevention of pathological RBC shape changes |\n| `tox_eff` | TOXICITY EFFECT MEASUREMENTS | Measurements that evaluate the harmful effects of compounds or formulations on cells, tissues, or physiological systems, characterizing both direct toxicity and protective effects against toxic substances. | Cytotoxicity, hemotoxicity, biocompatibility, safety parameters, toxic potency | Cytotoxicity: Measures degree of toxicity to mammalian cells; Erythrocyte toxicity: Measures harmful effects on red blood cells; Hemotoxicity: Measures toxic effects on blood components; Cell viability and function: Measures preservation of normal cellular activity; Safety parameters: Assesses biocompatibility indicators |\n| `imm_resp` | IMMUNOLOGICAL RESPONSE MEASUREMENTS | Measurements that assess immunogenic properties, immune system interactions, or immunological recognition of administered substances, characterizing both desired and undesired immune responses. | Immunogenicity, antigenicity, antibody recognition, immune evasion, complement activation | Immunogenicity: Measures ability to induce immune responses; Antigenicity: Measures recognition by antibodies; Antibody specificity: Measures precise epitope recognition patterns; Immune surveillance evasion: Measures ability to avoid detection by immune system; Complement activation: Measures degree to which formulations trigger complement cascade |\n| `gene_del` | NUCLEIC ACID DELIVERY MEASUREMENTS | Measurements that evaluate the effectiveness of membrane-based systems for delivery of genetic material, including transfection efficiency, gene expression outcomes, and nucleic acid protection. | Transfection efficiency, gene expression, nucleic acid protection, delivery specificity, genetic payload transfer | Transfection efficiency: Measures successful genetic material delivery to target cells; Gene expression level: Measures functional outcome of nucleic acid delivery; Nucleic acid protection: Measures prevention of degradation during delivery; Nuclear localization: Measures successful targeting to cell nucleus; Plasmid encapsulation: Measures incorporation of genetic material into delivery systems |\n| `other_var` | OTHER VARIABLE MEASUREMENTS | Data variables that do not clearly fit into any of the established thematic measurement categories but still represent important measurements in red blood cell and liposome interaction research. These may include novel measurement types, uncommon parameters, or highly specialized variables that fall outside the defined categories. | Novel measurement types, uncommon parameters, specialized variables, emerging measurements | Variables that combine multiple aspects in novel ways; Uncommon or rarely measured parameters; Highly specialized measurements for niche applications; Emerging measurement types not yet fully classified |",
+            "properties": {
+              "context": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Verbatim direct quotes from the text for structured identification of category-relevant content"
+              },
+              "thoughts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Step-by-step reasoning using the direct verbatim quotes from the context and the following structure: 'Step 1: Analyzed key terminology in the context', 'Step 2: Identified alignment with [chosen category] through terms like [specific terms]', 'Step 3: Compared against alternative categories [list alternatives] and found stronger alignment with [chosen category] due to [specific reasons]'"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Concise explanation using the context and thoughts and the following template structure: 'This research gap focuses primarily on [specific aspects] which align directly with the [chosen category] definition, particularly the emphasis on [key concepts from category].'"
+              },
+              "thematicCategoryId": {
+                "type": "string",
+                "enum": [
+                  "mem_intg",
+                  "mem_phys",
+                  "mem_comp",
+                  "mem_asym",
+                  "lip_trfr",
+                  "mem_fuse",
+                  "mem_perm",
+                  "mem_bind",
+                  "mem_elec",
+                  "cell_lip",
+                  "rbc_morph",
+                  "rbc_func",
+                  "rbc_agg",
+                  "lip_size",
+                  "lip_stab",
+                  "lip_surf",
+                  "lip_form",
+                  "vesic_char",
+                  "prot_func",
+                  "enc_eff",
+                  "del_eff",
+                  "cir_time",
+                  "org_dist",
+                  "hgb_prop",
+                  "oxy_tran",
+                  "rheo_prop",
+                  "oxd_proc",
+                  "therm_prop",
+                  "env_resp",
+                  "ther_eff",
+                  "tox_eff",
+                  "imm_resp",
+                  "gene_del",
+                  "other_var"
+                ],
+                "description": "Identifier of the UKB thematic category for this variable"
+              },
+              "evidence_strength": {
+                "type": "string",
+                "enum": ["Strong", "Moderate", "Weak"],
+                "description": "Assessment of how strongly this variable aligns with the thematic category"
+              }
+            },
+            "required": ["context", "thoughts", "summary", "thematicCategoryId", "evidence_strength"]
+          },
+          "text_location": {
+            "type": "string",
+            "description": "Section and page number where the variable is described or measured in the full text"
+          },
+          "significance": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"],
+            "description": "Assessed significance of this variable to the liposome-RBC interaction focus of the study"
+          }
+        },
+        "required": ["variable_name", "context", "thoughts", "summary", "data_type", "measurement_details", "thematicCategorization", "text_location", "significance"]
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "description": "Array of identified research techniques with their thematic categorization",
+      "items": {
+        "type": "object",
+        "properties": {
+          "technique_name": {
+            "type": "string",
+            "description": "Name of the technique or methodological approach exactly as stated in the full text"
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Direct quotes from the full text that describe this technique, its implementation, or its significance. Include complete sentences with experimental conditions and analytical approaches. Include page numbers when available."
+          },
+          "thoughts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step-by-step reasoning to identify and validate this technique. Consider: 1) How is this technique implemented in the study? 2) How is it relevant to liposome-RBC interactions? 3) What are the strengths and limitations of this approach? 4) Does it represent a standard or innovative methodology?"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Concise synthesis of this specific technique and its significance to studying liposome-RBC interactions in this paper."
+          },
+          "methodology_details": {
+            "type": "object",
+            "description": "Detailed information about how the technique was implemented",
+            "properties": {
+              "materials": {
+                "type": ["string", "null"],
+                "description": "Key materials, reagents, or equipment used with this technique"
+              },
+              "procedure": {
+                "type": ["string", "null"],
+                "description": "Brief description of the procedural steps or protocol used"
+              },
+              "parameters": {
+                "type": ["string", "null"],
+                "description": "Important experimental parameters, conditions, or settings used with this technique"
+              },
+              "controls": {
+                "type": ["string", "null"],
+                "description": "Control conditions or comparison groups used with this technique"
+              },
+              "context": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Direct quotes describing the detailed implementation of this technique, including experimental conditions, materials, or analytical approaches."
+              },
+              "thoughts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Step-by-step reasoning about the methodological details. Consider: 1) How comprehensive is the description? 2) Are there any notable modifications to standard protocols? 3) Are there any potential limitations in the implementation?"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Concise explanation of how the technique was implemented in this study, highlighting any notable adaptations or unique aspects."
+              }
+            },
+            "required": ["materials", "procedure", "parameters", "controls", "context", "thoughts", "summary"]
+          },
+
+"thematicCategorization": {
+            "type": "object",
+            "description": "Thematic category that this technique belongs to according to the UKB framework. Reference the following table for category definitions, key concepts, and examples:\n\n| Category ID | Title | Description | Key Concepts | Example Techniques |\n|-------------|-------|-------------|--------------|-------------------|\n| `membrane_structure` | Membrane Structure and Composition Analysis | Techniques that characterize the physical organization, molecular composition, and spatial distribution of components in both natural red blood cell membranes and synthetic liposomal membranes, providing fundamental insights into membrane architecture. | Lipid composition, phospholipid distribution, cholesterol content, membrane asymmetry, lipid rafts, domain formation, structural characterization, compositional analysis, phospholipid quantification, membrane protein organization | Phospholipid extraction and quantification, Cholesterol/phospholipid ratio determination, Membrane leaflet distribution analysis, Lipid raft isolation and characterization, Membrane protein quantification |\n| `membrane_properties` | Membrane Physical Properties and Dynamics Characterization | Methods that measure dynamic physical properties of membranes, including fluidity, elasticity, mobility, and phase behavior, evaluating how membrane components move and interact within the bilayer under various conditions. | Membrane fluidity, microviscosity, phase transitions, lateral diffusion, lipid mobility, membrane deformability, membrane elasticity, anisotropy, ordering parameters, lipid packing, rheological properties | Fluorescence anisotropy measurements with probes (DPH, TMA-DPH), Electron spin resonance spectroscopy with spin labels, Deformability cytometry of erythrocytes, Temperature-dependent phase transition analysis, Lateral diffusion measurements using FRAP |\n| `membrane_transport` | Membrane Transport and Permeability Assessment | Techniques that examine the movement of molecules across membrane barriers, including passive diffusion, carrier-mediated transport, and channel function, quantifying the permeability properties of both natural and artificial membranes. | Membrane permeability, ion channels, transporters, facilitated diffusion, active transport, leakage, flux measurement, permeability coefficients, barrier function, channel activity | Ion permeability assays, Glucose transport measurements, Water permeability assessment using stopped-flow techniques, Permeability coefficient determination, Marker/dye release assays for membrane integrity |\n| `liposome_preparation` | Liposome Preparation and Characterization | Methods for creating and characterizing liposomes with specific compositions, sizes, lamellarity, and physical properties, establishing the foundation for subsequent experimental and therapeutic applications. | Lipid film hydration, extrusion, sonication, reverse-phase evaporation, size distribution, lamellarity, surface charge, physical stability, multilamellar vesicles, unilamellar vesicles, scale-up production, manufacturing parameters | Thin film hydration methods, Reverse-phase evaporation liposome preparation, Extrusion through polycarbonate membranes, Size characterization by dynamic light scattering, Zeta potential measurement for surface charge |\n| `rbc_techniques` | RBC Isolation and Modification Techniques | Procedures for obtaining, processing, handling, and modifying red blood cells for experimental purposes, ranging from basic isolation and preparation methods to advanced modifications. This includes standard isolation procedures (blood collection, centrifugation, washing), basic handling (counting, storage), as well as advanced techniques such as ghost preparation, membrane modification, and RBC loading with various substances. | Basic techniques: RBC isolation, centrifugation separation, washing procedures, cell counting, short-term storage; Advanced techniques: ghost preparation, membrane extraction, resealed ghosts, inside-out vesicles, RBC fractionation, cell loading, membrane stripping, vesiculation, extracellular vesicle formation |\n| `surface_modification` | Membrane Surface Modification and Functionalization Techniques | Techniques for deliberately altering membrane surfaces through addition of functional groups, targeting ligands, or protective coatings to confer specific properties, recognition capabilities, or therapeutic functions. | Surface modification, PEGylation, ligand conjugation, antibody attachment, receptor targeting, surface coating, functionalization, stealth liposomes, recognition elements, surface charge modification | PEGylation of liposome surfaces, Antibody conjugation to membrane surfaces, Carbodiimide chemistry for protein coupling, Ligand attachment for targeted delivery, RBC membrane coating of nanoparticles |\n| `membrane_fusion` | Membrane Fusion and Interaction Studies | Methods that examine how membranes interact with each other, including binding, aggregation, fusion, and component exchange processes, providing insights into fundamental membrane behaviors critical for both physiological processes and therapeutic applications. | Membrane fusion, lipid mixing, content mixing, hemifusion, vesicle aggregation, docking, electrostatic interactions, fusion kinetics, membrane adhesion, fusion efficiency | Fluorescent lipid mixing assays, Aqueous content mixing measurements, Resonance energy transfer for fusion detection, PEG-mediated fusion methods, Virus-induced fusion assays |\n| `drug_delivery` | Drug Encapsulation and Delivery Techniques | Techniques for loading therapeutic agents into liposomes or RBC-based carriers and characterizing their encapsulation efficiency, release kinetics, and delivery properties for pharmaceutical applications. | Drug loading, encapsulation efficiency, controlled release, active loading, pH gradients, drug retention, release kinetics, targeted delivery, carrier design, formulation stability | pH gradient drug loading methods, Drug encapsulation efficiency determination, Controlled release assays, Remote loading techniques, Release kinetics measurements |\n| `lipid_transfer` | Membrane Lipid and Component Transfer Assessment | Methods that investigate the exchange of lipids, proteins, or other molecules between membranes, including both spontaneous and protein-mediated transfer processes that affect membrane composition and function. | Lipid transfer, cholesterol exchange, phospholipid exchange, protein incorporation, transbilayer movement, flip-flop, intermembrane movement, transfer proteins, exchange kinetics | Cholesterol transfer assays using radioisotopes, Phospholipid transfer protein activity measurement, Transbilayer movement (flip-flop) assessment, Protein-mediated lipid exchange measurements, Fluorescent lipid transfer tracking |\n| `microscopy` | Microscopy and Imaging Techniques | Visual methods that enable direct observation of RBCs, liposomes, and their interactions at various scales, providing structural, morphological, and dynamic information through different microscopy approaches. | Electron microscopy, fluorescence microscopy, confocal microscopy, atomic force microscopy, structural visualization, real-time imaging, morphological assessment, high-resolution imaging | Cryo-transmission electron microscopy, Confocal laser scanning microscopy, Freeze-fracture electron microscopy, Phase-contrast microscopy of RBCs, Super-resolution fluorescence microscopy |\n| `spectroscopic` | Spectroscopic and Biophysical Characterization | Analytical techniques that use various forms of spectroscopy and biophysical approaches to characterize molecular properties, interactions, and dynamics within membrane systems. | Fluorescence spectroscopy, NMR spectroscopy, infrared spectroscopy, light scattering, calorimetry, resonance energy transfer, molecular probes, spectral analysis, thermal transitions | Nuclear magnetic resonance spectroscopy, Fourier-transform infrared spectroscopy, Fluorescence resonance energy transfer (FRET), Differential scanning calorimetry, Raman spectroscopy for membrane analysis |\n| `protein_membrane` | Protein-Membrane Interaction Studies | Techniques that analyze how proteins associate with, incorporate into, or affect membrane systems, including binding characteristics, insertion mechanisms, and functional consequences of protein-membrane interactions. | Protein binding, membrane insertion, reconstitution, proteoliposomes, binding affinity, functional assessment, membrane anchoring, protein conformation, lipid-protein interactions | Protein reconstitution into liposomes, Surface plasmon resonance for binding kinetics, Tryptophan fluorescence for protein-membrane interactions, Circular dichroism for protein conformational changes, Isothermal titration calorimetry for binding thermodynamics |\n| `membrane_stability` | Membrane Stability and Integrity Assessment | Methods that evaluate how membranes maintain their structural integrity under various conditions or stressors, including mechanical stress, oxidative damage, temperature extremes, and storage conditions. | Hemolysis, membrane integrity, osmotic fragility, mechanical stability, thermal stability, oxidative resistance, storage stability, permeabilization, stress resistance | Osmotic fragility testing of erythrocytes, Hemolysis measurement and assessment, Temperature stability testing, Storage stability evaluation, Mechanical resistance assessment |\n| `oxidative_processes` | Oxidative Processes and Antioxidant Effect Assessment | Techniques investigating oxidative damage to membranes and protective mechanisms against such damage, including lipid peroxidation, protein oxidation, and the effects of antioxidant interventions. | Lipid peroxidation, reactive oxygen species, oxidative stress, antioxidant protection, membrane oxidation, oxidative damage markers, free radicals, antioxidant capacity, stress response | Thiobarbituric acid reactive substances (TBARS) assay, Lipid hydroperoxide measurement, ROS detection with fluorescent probes, Antioxidant capacity determination, Protein carbonyl quantification |\n| `hemoglobin` | Hemoglobin and Oxygen Transport Approaches | Specialized techniques for studying hemoglobin function, developing hemoglobin-based oxygen carriers, and characterizing oxygen transport capabilities of natural and artificial systems. | Hemoglobin encapsulation, oxygen binding affinity, methemoglobin, oxygen carriers, blood substitutes, gas transport kinetics, hemoglobin modification, oxygen delivery | Hemoglobin encapsulation in liposomes, Oxygen binding curve determination, Methemoglobin reduction assays, Oxygen affinity measurement, Gas binding/release kinetics assessment |\n| `biocompatibility` | Biological Response and Biocompatibility Assessment | Methods for evaluating how cells, tissues, and immune systems respond to membrane-based systems, including toxicity, immunological effects, cellular uptake, and overall biocompatibility with biological environments. | Cell viability, cytotoxicity, immune response, complement activation, phagocytosis, cellular uptake, inflammatory response, blood compatibility, immunogenicity, hemotoxicity | MTT/XTT cell viability assays, Complement activation assays, Cytokine production measurement, Phagocytosis quantification, Blood compatibility testing |\n| `in_vivo` | In Vivo Evaluation and Pharmacokinetics | Methods for assessing the behavior, stability, distribution, and efficacy of liposome-based or erythrocyte-based systems in living organisms, providing critical information for translational and therapeutic applications. | Biodistribution, circulation time, clearance mechanisms, organ uptake, in vivo imaging, therapeutic efficacy, animal models, pharmacokinetic profiles, tissue accumulation | In vivo circulation time measurement, Biodistribution analysis using labeled components, Organ-specific accumulation assessment, Pharmacokinetic profile determination, In vivo efficacy evaluation in disease models |\n| `disease_models` | Disease-Specific Models and Applications | Specialized techniques focused on particular diseases or therapeutic applications, addressing the unique challenges and opportunities of applying RBC-liposome research to specific medical conditions. | Disease models, therapeutic applications, pathogen interactions, cancer treatment, infection models, targeted therapies, disease-specific delivery, therapeutic assessment | Malaria parasite-infected RBC models, Tumor spheroid penetration studies, Cancer cell targeting assessment, Infectious disease treatment models, Tissue-specific targeting evaluation |\n| `analytical_chemistry` | Advanced Analytical Chemistry Methods | Sophisticated analytical techniques for detailed chemical characterization, quantification, and identification of membrane components and associated molecules, providing molecular-level information about membrane composition and interactions. | Chromatography, mass spectrometry, elemental analysis, quantitative detection, lipidomics, proteomics, separation techniques, analytical detection, molecular identification | Liquid chromatography-mass spectrometry (LC-MS), Gas chromatography for lipid analysis, MALDI-TOF mass spectrometry, Tandem mass spectrometry (MS/MS), High-performance liquid chromatography (HPLC) |\n| `computational` | Computational and Theoretical Approaches | Methods using computational simulations, mathematical models, theoretical frameworks, and artificial intelligence to predict and understand membrane behavior, interactions, and properties, complementing experimental approaches with predictive insights. | Molecular dynamics, mathematical modeling, simulation, theoretical prediction, computational analysis, biophysical modeling, machine learning applications, in silico prediction, parameter estimation | Molecular dynamics simulations of membranes, Mathematical modeling of drug release kinetics, Statistical thermodynamic analysis, Machine learning for property prediction, Biophysical modeling of membrane interactions |\n| `emerging_tech` | Emerging Hybrid and Microfluidic Technologies | Cutting-edge techniques that integrate multiple methodological approaches or utilize advanced microfluidic platforms to study and manipulate RBC and liposome systems with high precision, throughput, or biomimetic relevance. | Microfluidics, organ-on-chip, high-throughput screening, integrated platforms, lab-on-a-chip, biomimetic systems, advanced manufacturing, technological convergence, scale-up production methods | Microfluidic liposome production, Organ-on-chip drug delivery assessment, High-throughput RBC-liposome interaction screening, 3D-printed biomimetic vascular models, Integrated microfluidic analysis systems |\n| `other_techniques` | Other Techniques | Research techniques that do not clearly fit into any of the established thematic categories but are still relevant to red blood cell and liposome interaction research. | Miscellaneous techniques, novel approaches, interdisciplinary methods, specialized procedures, unusual protocols, unique methodologies, customized techniques | Techniques that combine multiple approaches in novel ways, Uncommon or rarely used methods, Highly specialized procedures for niche applications, Emerging techniques not yet fully classified, Custom methodologies developed for specific research questions |",
+            "properties": {
+              "context": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Verbatim direct quotes from the text for structured identification of category-relevant content"
+              },
+              "thoughts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Step-by-step reasoning using the direct verbatim quotes from the context and the following structure: 'Step 1: Analyzed key terminology in the context', 'Step 2: Identified alignment with [chosen category] through terms like [specific terms]', 'Step 3: Compared against alternative categories [list alternatives] and found stronger alignment with [chosen category] due to [specific reasons]'"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Concise explanation using the context and thoughts and the following template structure: 'This research gap focuses primarily on [specific aspects] which align directly with the [chosen category] definition, particularly the emphasis on [key concepts from category].'"
+              },
+              "thematicCategoryId": {
+                "type": "string",
+                "enum": [
+                  "membrane_structure",
+                  "membrane_properties",
+                  "membrane_transport",
+                  "liposome_preparation",
+                  "rbc_techniques",
+                  "surface_modification",
+                  "membrane_fusion",
+                  "drug_delivery",
+                  "lipid_transfer",
+                  "microscopy",
+                  "spectroscopic",
+                  "protein_membrane",
+                  "membrane_stability",
+                  "oxidative_processes",
+                  "hemoglobin",
+                  "biocompatibility",
+                  "in_vivo",
+                  "disease_models",
+                  "analytical_chemistry",
+                  "computational",
+                  "emerging_tech",
+                  "other_techniques"
+                ],
+                "description": "Identifier of the UKB thematic category for this technique"
+              },
+              "evidence_strength": {
+                "type": "string",
+                "enum": ["Strong", "Moderate", "Weak"],
+                "description": "Assessment of how strongly this technique aligns with the thematic category"
+              }
+            },
+            "required": ["context", "thoughts", "summary", "thematicCategoryId", "evidence_strength"]
+          },
+          "text_location": {
+            "type": "string",
+            "description": "Section and page number where the technique is described in the full text"
+          },
+          "significance": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"],
+            "description": "Assessed significance of this technique to the liposome-RBC interaction focus of the study"
+          }
+        },
+        "required": ["technique_name", "context", "thoughts", "summary", "methodology_details", "thematicCategorization", "text_location", "significance"]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "Array of identified research findings with their thematic categorization",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_statement": {
+            "type": "string",
+            "description": "Clear statement of the research finding using the paper's own terminology, including quantitative results where provided"
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Direct quotes from the full text that explicitly state this finding or conclusion. Include both specific results and general conclusions, with page numbers when available."
+          },
+          "thoughts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step-by-step reasoning to identify and validate this finding. Consider: 1) Is this a substantiated result or conclusion? 2) How significant is this finding to liposome-RBC interactions? 3) What broader implications does this finding have for the field?"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Concise synthesis of this specific finding and its significance to the field of liposome-RBC interactions."
+          },
+          "finding_details": {
+            "type": "object",
+            "description": "Detailed information about the nature and implications of the finding",
+            "properties": {
+              "quantitative_results": {
+                "type": ["string", "null"],
+                "description": "Specific measurements, statistical outcomes, or quantitative data supporting this finding. Use null if not applicable."
+              },
+              "conditions": {
+                "type": ["string", "null"],
+                "description": "Experimental conditions or contexts under which this finding was observed"
+              },
+              "limitations": {
+                "type": ["string", "null"],
+                "description": "Any stated limitations or constraints on the generalizability of this finding"
+              },
+              "implications": {
+                "type": ["string", "null"],
+                "description": "Stated or clear implications of this finding for theory, practice, or future research"
+              },
+              "impact_direction": {
+                "type": "string",
+                "enum": ["Positive", "Neutral", "Negative", "Mixed"],
+                "description": "Assessment of whether this finding represents a positive advancement, a neutral observation, a negative/problematic outcome, or a mixed result with both positive and negative aspects"
+              },
+              "context": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Direct quotes describing the detailed aspects of this finding, including quantitative data, conditions, limitations, implications, and impact assessment."
+              },
+              "thoughts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Step-by-step reasoning about the finding details. Consider: 1) How robust is the evidence supporting this finding? 2) Under what conditions does this finding apply? 3) What are the limitations or boundaries of this finding? 4) What implications does this finding have for research or application? 5) Based on the paper's framing and evidence, does this finding represent a positive advancement, a neutral observation, a negative outcome, or a mixed result?"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Concise explanation of the finding details, including key quantitative results, implications, and assessment of its impact direction based on the paper's own framing."
+              }
+            },
+            "required": ["quantitative_results", "conditions", "limitations", "implications", "impact_direction", "context", "thoughts", "summary"]
+          },
+
+
+
+"thematicCategorization": {
+            "type": "object",
+            "description": "Thematic category that this finding belongs to according to the UKB framework. Reference the following table for category definitions, key concepts, and examples:\n\n| Category ID | Title | Description | Key Concepts | Example Findings |\n|-------------|-------|-------------|--------------|-------------------|\n| `therapeutic_delivery` | Enhanced Therapeutic Delivery and Efficacy | Demonstrated improvements in drug targeting, bioavailability, and treatment outcomes through RBC-liposome systems. | Targeted binding, reduced IC50, pharmacokinetic optimization, encapsulation efficiency | Immunoliposomes improved antimalarial efficacy tenfold vs. free drugs; Tumor accumulation of 5-8% for targeted carriers vs. 0.7% for conventional liposomes; RBC hitchhiking boosts nanocarrier delivery to target organs by orders of magnitude |\n| `reduced_toxicity` | Reduced Toxicity and Improved Safety | Significant reduction in hemolysis, cytotoxicity, and off-target effects while maintaining therapeutic function. | Selective toxicity, membrane protection, biocompatibility, safety profiles | Liposomal amphotericin B eliminated RBC lysis while retaining antifungal activity; ET-18-OCH3/cholesterol system showed H50 = 661 μM vs. 16 μM for free drug; Liposomal formulations cause only 20% hemolysis compared to 100% with conventional formulations |\n| `circulation_optimization` | Prolonged Circulation and Pharmacokinetic Optimization | Extended blood residence time and improved biodistribution through immune evasion strategies. | Stealth coatings, RBC hitchhiking, delayed clearance | RBC-mimetic liposomes circulated 48+ hours vs. <6h for conventional carriers; PEGylated hemoglobin vesicles doubled circulation half-life (9.67h vs. 3.8h); Repeated MB injections extended functional lifespan beyond 60 hours |\n| `oxygen_transport` | Enhanced Oxygen and Bioactive Gas Transport | Demonstrated improvements in oxygen binding, delivery, or exchange efficiency in RBC-inspired systems. | Hemoglobin stabilization, P50 modulation, gas exchange kinetics, therapeutic gas delivery | PEG-LEH maintained tissue oxygenation after 90% blood replacement; Synthetic RBCs restored cardiorespiratory function for 6+ months; Hemoglobin vesicles achieved 60.4% oxygen capacity at 88% exchange rate; CO binding rates to encapsulated hemoglobin were reduced to prevent vasoconstrictive effects |\n| `membrane_stability` | Increased Membrane Stability and Oxidative Resistance | Enhanced resistance to mechanical/oxidative stress and preservation of membrane integrity. | Lipid peroxidation prevention, cryoprotection, structural reinforcement | Troglitazone preserved α-tocopherol levels under oxidative stress; Cholesterol reduced Hb denaturation in phospholipid systems by 80%; Natural erythrocyte membrane composition provided optimal oxidative protection |\n| `controlled_release` | Controlled Drug Release and Permeability Regulation | Spatiotemporal control over therapeutic payload delivery and selective membrane interactions. | pH sensitivity, ultrasound triggering, selective pore formation | SMA-liposomes released 90% payload at endosomal pH vs. 5% at physiological pH; Short-chain phosphatidylcholines created selective membrane pores for small molecules; Enzyme-cleavable peptides enabled triggerable fusion after 30min incubation |\n| `membrane_fusion` | Efficient Membrane Fusion and Content Delivery | Optimized content delivery through regulated fusion mechanisms between liposomes and cells. | Lipid mixing, temperature/pH sensitivity, fusion proteins, content release | HVJ-glycoprotein liposomes achieved 200x faster fusion rates; Non-phospholipid liposomes demonstrated 25-64% fusion efficiency; At pH 5.2 and 37°C, fusion is rapid (1-2 min) and reaches 63-66% efficiency |\n| `component_exchange` | Bidirectional Component Exchange and Transfer | Active exchange of lipids, proteins, and other components between RBCs and liposomes in both directions. | Lipid transfer, protein exchange, cholesterol movement, component incorporation | Cholesterol transfers occurred without membrane fusion or attachment; Bidirectional lipid transfer occurs with cholesterol moving to liposomes while phospholipids move to ghosts; Artificial boundary lipids enabled protein transfer proportional to their content; Vesicles transfer both membrane components and internal contents to cells, while cells transfer components to vesicles |\n| `immune_recognition` | Modulated Immune Recognition and Biocompatibility | Altered immune recognition profiles and enhanced blood compatibility through membrane engineering. | Complement avoidance, phagocytosis regulation, platelet interactions | Glycophorin incorporation reduced phagocytosis at 1:6000 lipid ratios; RBC membrane coatings eliminated accelerated blood clearance; PS externalization increased macrophage uptake 5-fold, while PS liposomes inhibited this process by ~60%; Critical threshold for PtdSer recognition by reticuloendothelial system identified between 2-3 mol% |\n| `antimicrobial_effects` | Enhanced Antimicrobial and Antiparasitic Effects | Improved pathogen inhibition and targeted antimicrobial delivery. | Competitive binding, resistance reversal, dual mechanisms | Band 3 liposomes inhibited *P. falciparum* invasion 10x better than alternatives; Heparinized carriers increased primaquine efficacy 3x in malaria models; RBC membrane-coated liposomes achieved >80% MRSA death in 4 hours; Low-dose liposomal chloroquine (5 mg/kg) achieved 75-90% cure rates against resistant infections |\n| `storage_stability` | Improved Storage Stability and Preservation | Enhanced stability and recovery of RBCs/liposomes during storage or freezing. | Cryopreservation, lyophilization, storage lesion reduction | DOPC liposomes achieved 92-97% RBC recovery post-cryopreservation; Liposome-protected RBCs survived 10 weeks of dry storage; Synergistic component protection during freeze-drying; Phospholipid vesicles substantially improved survival of freeze-dried RBCs |\n| `physical_properties` | Altered Physical and Mechanical Properties | Modified flow characteristics, deformability, and mechanical resilience. | Viscosity reduction, flow dynamics, mechanical resilience | Liposomal retinoids reduced blood viscosity by 40% vs. free drugs; RBC deformability increased LEH dispersion in low-flow conditions; Synthetic carriers decreased vascular resistance to 25% of RBC values; NRC decreases total peripheral vascular resistance to 1/4 of RBC values |\n| `protein_reconstitution` | Successful Protein Reconstitution and Function | Functional preservation of proteins in artificial membrane systems. | Enzyme activity, transport function, protein orientation | Water channel protein (CHIP28) retained tetrameric structure in liposomes; Band 3 insertion broadened thermal transitions without disrupting function; Superoxide dismutase maintained activity inside intact RBCs; In PMCA-reconstituted proteoliposomes, nearly half of the ATPase activity was retained |\n| `morphological_changes` | Induced Morphological and Structural Transformations | Specific changes in cell shape, membrane organization, and structural properties due to RBC-liposome interactions. | Echinocyte formation, stomatocyte conversion, membrane remodeling | Cholesterol enrichment transformed RBC shape to redundant/folded forms, decreasing filterability; Both free and liposomal curcumin induced dose-dependent echinocyte formation at ≥10 μg/ml; RBC shape transformation to stomatocytes occurred upon interaction with Vectamidine liposomes; β2-glycoprotein I induced RBC shape transformation from discocyte to echinocyte to spherocyte |\n| `phospholipid_asymmetry` | Characterized Phospholipid Distribution and Asymmetry | Demonstrated specific patterns and functional consequences of phospholipid arrangement, translocation, and asymmetry in membrane systems. | Transbilayer movement, asymmetry maintenance, leaflet distribution | Cholesterol demonstrated potent inhibition of phospholipid scrambling at physiological temperatures; PS exposure strongly correlated (r=0.88) with increased erythrocyte adherence to endothelial cells; Aminophospholipid translocation showed type-specific and energy-dependent properties; ATP depletion markedly retarded amino phospholipid translocation to inner membrane leaflet |\n| `differential_responses` | System-Dependent Differential Responses | Documented distinctly different reactions between various membrane systems (natural vs. artificial, different compositions) to identical treatments or conditions. | Membrane-specific effects, composition-dependent responses, biological vs. synthetic differences | Cu²⁺ uniquely catalyzed erythrocyte membrane peroxidation while multiple metals affected liposomes; Polylysine strongly inhibited melittin-induced hemolysis but stimulated lipid vesicle lysis; TMAO counteracted urea's ordering effect in natural membranes but not in protein-free liposomes; Phenothiazines promoted liposome lysis with clinical-potency correlation but required membrane proteins for RBC stabilization |\n| `disease_specific` | Enhanced Disease-Specific Therapeutic Effects | Demonstrated remarkably effective interventions targeting specific disease states or conditions. | Disease modification, symptom reduction, condition-specific treatment, pathology targeting | Vanillin-loaded liposomes retained antisickling activity for sickle cell disease treatment; Fingolimod-loaded liposomes completely sealed the leaky blood-brain barrier in stroke model while eliminating RBC toxicity; Incorporation of Phe or Trp into RBCs via liposomes markedly inhibited and reversed in vitro sickling; Liposome-delivered amino acids normalized viscosity of deoxygenated sickle cells |\n| `disease_mechanisms` | Elucidated Disease Mechanisms and Pathophysiology | Revealed or clarified pathological processes, disease-related mechanisms, or physiological dysfunctions through RBC-liposome research. | Mechanistic insights, disease models, pathological processes, dysfunction characterization | PS exposure on uremic erythrocytes strongly correlated with endothelial adhesion, explaining vascular pathology; Vesiculation and resulting protein loss may contribute to hemolysis in PNH; Membrane lipid composition determined resistance to phototoxic damage, explaining differences in cell susceptibility; Increased microviscosity in hereditary spherocytosis correlated with disease severity |\n| `genetic_modification` | Enhanced Transfection and Genetic Modification | Improved delivery of genetic material, increased transfection efficiency, or enhanced genetic modification capabilities. | Gene delivery, DNA/RNA transfection, expression enhancement, genetic therapy | Liposomal locked-in dendrimers showed more efficient transfection profiles than hydrophobic methods; HVJ-liposome method achieved transient gene expression in nearly all recipient cells; DOTMA/Chol complexes with higher in vivo transfection activity did not induce fusion between erythrocytes; Pre-incubation with erythrocytes significantly reduced transfection efficiency of some liposomal formulations |\n| `biomimetic_function` | Demonstrated Biomimetic Hybrid Functionality | Validated performance of RBC-liposome hybrids in achieving dual therapeutic goals or overcoming biological barriers. | Dual targeting, hybrid stability, multi-mechanistic performance, biological mimicry | RBC-macrophage hybrids showed dual immune evasion/targeting capabilities; Biomimetic systems enabled room-temperature storage without blood typing requirements; P4.2 peptide ensured proper membrane orientation in 84% of nanoparticles; Artificial chimeric exosomes combined RBC anti-phagocytosis properties with cancer cell targeting abilities |\n| `diagnostic_imaging` | Enhanced Diagnostic and Imaging Capabilities | Improved detection, visualization, or diagnostic performance through RBC-liposome based contrast agents or markers. | Imaging enhancement, diagnostic sensitivity, contrast improvement | Gd-RBC demonstrates order of magnitude enhancement in r1 relaxivity (19.0 mM⁻¹s⁻¹); Paramagnetic liposome-RBC aggregates generated two distinct CEST pools for tracking; Anti-RBC antibody VDRL liposomes achieved 100% sensitivity and 99.9% specificity for syphilis; Tb³⁺-dipicolinic acid enabled real-time anion transport monitoring |\n| `therapeutic_development` | Therapeutic Development Advancement | Demonstrated progress in therapeutic development, clinical translation, and general efficacy improvements not tied to specific mechanisms, including clinical trial progression, broad therapeutic potential, and general efficacy enhancements. | Clinical advancement, therapeutic development milestones, general efficacy improvements, product development progress, broad therapeutic potential | Multiple products have advanced to clinical trials with some reaching advanced phases; Multiple therapeutic functions, effects, and applications have been successfully developed; Therapeutic potential has been demonstrated across various conditions; Superior therapeutic effects and improved efficacy have been demonstrated; Successful progression through development and regulatory pathways |\n| `other_outcomes` | Other Research Outcomes | Research outcomes that do not clearly fit into any of the established thematic categories but still represent important findings in red blood cell and liposome interaction research. | Miscellaneous findings, novel outcomes, unique discoveries, unconventional results | Outcomes that combine multiple aspects in novel ways; Uncommon or rarely observed effects; Highly specialized findings for niche applications; Emerging outcomes not yet fully classified |",
+            "properties": {
+              "context": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Verbatim direct quotes from the text for structured identification of category-relevant content"
+              },
+              "thoughts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Step-by-step reasoning using the direct verbatim quotes from the context and the following structure: 'Step 1: Analyzed key terminology in the context', 'Step 2: Identified alignment with [chosen category] through terms like [specific terms]', 'Step 3: Compared against alternative categories [list alternatives] and found stronger alignment with [chosen category] due to [specific reasons]'"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Concise explanation using the context and thoughts and the following template structure: 'This research gap focuses primarily on [specific aspects] which align directly with the [chosen category] definition, particularly the emphasis on [key concepts from category].'"
+              },
+              "thematicCategoryId": {
+                "type": "string",
+                "enum": [
+                  "therapeutic_delivery",
+                  "reduced_toxicity",
+                  "circulation_optimization",
+                  "oxygen_transport",
+                  "membrane_stability",
+                  "controlled_release",
+                  "membrane_fusion",
+                  "component_exchange",
+                  "immune_recognition",
+                  "antimicrobial_effects",
+                  "storage_stability",
+                  "physical_properties",
+                  "protein_reconstitution",
+                  "morphological_changes",
+                  "phospholipid_asymmetry",
+                  "differential_responses",
+                  "disease_specific",
+                  "disease_mechanisms",
+                  "genetic_modification",
+                  "biomimetic_function",
+                  "diagnostic_imaging",
+                  "therapeutic_development",
+                  "other_outcomes"
+                ],
+                "description": "Identifier of the UKB thematic category for this finding"
+              },
+              "evidence_strength": {
+                "type": "string",
+                "enum": ["Strong", "Moderate", "Weak"],
+                "description": "Assessment of how strongly this finding aligns with the thematic category"
+              }
+            },
+            "required": ["context", "thoughts", "summary", "thematicCategoryId", "evidence_strength"]
+          },
+          "text_location": {
+            "type": "string",
+            "description": "Section and page number where the finding is reported in the full text"
+          },
+          "significance": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"],
+            "description": "Assessed significance of this finding to the liposome-RBC interaction field"
+          }
+        },
+        "required": ["finding_statement", "context", "thoughts", "summary", "finding_details", "thematicCategorization", "text_location", "significance"]
+      }
+    },
+    "final_assessment": {
+      "type": "object",
+      "description": "Comprehensive assessment determining inclusion or exclusion in the scoping review based on all analyses performed",
+      "properties": {
+        "pathway_analysis": {
+          "type": "object",
+          "description": "Evaluation of how the paper aligns with the established filtering pathways",
+          "properties": {
+            "explicit_focus_pathway": {
+              "type": "object",
+              "description": "Assessment of alignment with Pathway 1: Explicit liposome-RBC interaction focus",
+              "properties": {
+                "has_liposome_rbc_interaction_gap": {
+                  "type": "boolean",
+                  "description": "Whether the paper contains gaps categorized as 'liposome_rbc_interaction'"
+                },
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "References to specific gaps that demonstrate explicit focus on liposome-RBC interactions"
+                },
+                "thoughts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Analysis of how central liposome-RBC interactions are to the paper's research gaps"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Concise determination of whether the paper meets Pathway 1 criteria"
+                },
+                "pathway_match": {
+                  "type": "boolean",
+                  "description": "Whether the paper definitively meets Pathway 1 criteria"
+                }
+              },
+              "required": ["has_liposome_rbc_interaction_gap", "context", "thoughts", "summary", "pathway_match"]
+            },
+            "enhanced_focus_pathway": {
+              "type": "object",
+              "description": "Assessment of alignment with Pathway 2: Enhanced liposome-RBC interaction research (foundational elements plus at least one interaction element)",
+              "properties": {
+                "has_foundation": {
+                  "type": "boolean",
+                  "description": "Whether the paper includes both liposome preparation AND RBC techniques"
+                },
+                "interaction_elements_present": {
+                  "type": "object",
+                  "description": "Whether the paper includes at least one of the interaction elements",
+                  "properties": {
+                    "interaction_variables": {
+                      "type": "boolean",
+                      "description": "Whether the paper includes interaction variables (cell-liposome interaction, membrane fusion, lipid transfer, membrane binding)"
+                    },
+                    "morphology_variables": {
+                      "type": "boolean",
+                      "description": "Whether the paper includes morphology variables (RBC morphology)"
+                    },
+                    "interaction_techniques": {
+                      "type": "boolean",
+                      "description": "Whether the paper includes interaction techniques (membrane fusion, lipid transfer)"
+                    },
+                    "interaction_findings": {
+                      "type": "boolean",
+                      "description": "Whether the paper includes interaction findings (component exchange, membrane fusion, morphological changes)"
+                    },
+                    "interaction_gaps": {
+                      "type": "boolean",
+                      "description": "Whether the paper includes interaction gaps (membrane interaction fusion, lipid movement distribution, protein-membrane interactions)"
+                    }
+                  },
+                  "required": ["interaction_variables", "morphology_variables", "interaction_techniques", "interaction_findings", "interaction_gaps"]
+                },
+                "context": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "References to specific elements from previous sections that demonstrate enhanced focus on liposome-RBC interactions"
+                },
+                "thoughts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Analysis of how the combination of elements establishes enhanced focus on liposome-RBC interactions"
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Concise determination of whether the paper meets Pathway 2 criteria"
+                },
+                "pathway_match": {
+                  "type": "boolean",
+                  "description": "Whether the paper definitively meets Pathway 2 criteria"
+                },
+                "matching_elements": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "interaction_variables",
+                      "morphology_variables",
+                      "interaction_techniques",
+                      "interaction_findings",
+                      "interaction_gaps"
+                    ]
+                  },
+                  "description": "List of which specific interaction elements matched in this paper"
+                }
+              },
+              "required": ["has_foundation", "interaction_elements_present", "context", "thoughts", "summary", "pathway_match", "matching_elements"]
+            }
+          },
+          "required": ["explicit_focus_pathway", "enhanced_focus_pathway"]
+        },
+        "holistic_assessment": {
+          "type": "object",
+          "description": "Evaluation of the paper's overall relevance and focus beyond strict pathway criteria",
+          "properties": {
+            "interaction_level": {
+              "type": "string",
+              "enum": [
+                "Primary focus",
+                "Significant component",
+                "Minor component",
+                "Tangential mention",
+                "Not present"
+              ],
+              "description": "The level of focus on liposome-RBC interactions in the paper"
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Key insights from all previous analyses (gaps, variables, techniques, findings) that inform this holistic assessment"
+            },
+            "thoughts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Step-by-step reasoning about the paper's overall value to the scoping review, considering both its alignment with pathways and any additional factors that may influence inclusion/exclusion"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Concise synthesis of the paper's overall relevance for inclusion in the scoping review"
+            }
+          },
+          "required": ["interaction_level", "context", "thoughts", "summary"]
+        },
+        "final_determination": {
+          "type": "object",
+          "description": "Final decision on inclusion or exclusion with detailed rationale",
+          "properties": {
+            "meets_pathway_criteria": {
+              "type": "boolean",
+              "description": "Whether the paper meets automatic inclusion criteria by matching either pathway"
+            },
+            "context": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Integration of pathway analysis and holistic assessment to support the final decision"
+            },
+            "thoughts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Step-by-step reasoning using the following structure: 'Step 1: Evaluated pathway criteria alignment', 'Step 2: Considered holistic assessment factors (interaction level)', 'Step 3: Determined final inclusion/exclusion status based on [specific reasons]'"
+            },
+            "summary": {
+              "type": "string",
+              "description": "Concise explanation of why the paper should be included or excluded, with direct reference to the established criteria"
+            },
+            "decision": {
+              "type": "string",
+              "enum": ["Include", "Exclude"],
+              "description": "Final decision on whether to include the paper in the scoping review"
+            },
+            "decision_basis": {
+              "type": "string",
+              "enum": [
+                "Meets pathway criteria",
+                "Included despite not meeting pathway criteria (exception)",
+                "Excluded despite meeting pathway criteria (exception)",
+                "Does not meet pathway criteria"
+              ],
+              "description": "The basis for the inclusion/exclusion decision"
+            },
+            "exclusion_reason": {
+              "type": "string",
+              "enum": [
+                "Not applicable (paper included)",
+                "Insufficient focus on liposome-RBC interactions",
+                "Insufficient methodological information",
+                "Focuses on other cell types without significant RBC component",
+                "Only theoretical without substantial relevance",
+                "Duplicate of already included research",
+                "Other"
+              ],
+              "description": "If excluded, the primary reason for exclusion"
+            },
+            "exception_justification": {
+              "type": ["string", "null"],
+              "description": "If decision is an exception to pathway criteria, detailed justification for the exception"
+            },
+            "priority_for_data_extraction": {
+              "type": "string",
+              "enum": [
+                "High priority",
+                "Medium priority",
+                "Low priority",
+                "Not applicable (paper excluded)"
+              ],
+              "description": "For included papers, the priority level for detailed data extraction based on relevance and significance"
+            }
+          },
+          "required": ["meets_pathway_criteria", "context", "thoughts", "summary", "decision", "decision_basis", "exclusion_reason", "exception_justification", "priority_for_data_extraction"]
+        }
+      },
+      "required": ["pathway_analysis", "holistic_assessment", "final_determination"]
+    }
+  },
+  "required": ["study_identifier", "gaps", "variables", "techniques", "findings", "final_assessment"]
+}
