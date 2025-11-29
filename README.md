@@ -1,8 +1,9 @@
 
-
-
 # Full-Text Literature Review Screening System
 *Google ADK Capstone Project - Freestyle Agents Track*
+
+
+![Problem->Solution](docs/images/animated%20problem%20solution.gif)
 
 
 **An automated fulltext screening system for literature reviews using Google ADK.**
@@ -30,8 +31,10 @@ OUTPUT: Schema-compliant JSON document with:
 ```
 
 
+
 ## Problem
 Literature reviews require screening hundreds of papers, taking 60-90 minutes per paper.
+
 
 ## Solution
 An automated screening system using Google ADK with 18-stage pipeline processing PDFs through multi-agent workflows.
